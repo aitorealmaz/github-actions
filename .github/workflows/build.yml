@@ -1,5 +1,5 @@
 name: Build
-on : [push,workflow_dispatch]
+on: [push, workflow_dispatch]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -10,6 +10,7 @@ jobs:
         run:  npm ci
       - name: Build project
         run: npm run build
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with: 
           path: build
