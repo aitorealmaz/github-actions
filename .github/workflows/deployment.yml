@@ -11,6 +11,11 @@ jobs:
       steps:
         - name: get repo code
           uses: actions/checkout@v5
+        - name: Cache deps
+          uses: actions/cache@v4
+          with:
+            path: ~/.npm
+            key: node-modules-${{hashFiles('**/package-lock.json')}}
         - name: Install depend
           run: npm ci
         - name: test appl
@@ -21,6 +26,11 @@ jobs:
       steps:
         - name: get repo code
           uses: actions/checkout@v5
+        - name: Cache deps
+          uses: actions/cache@v4
+          with:
+            path: ~/.npm
+            key: node-modules-${{hashFiles('**/package-lock.json')}}
         - name: Install depend
           run: npm ci
         - name: Lint appl
@@ -29,7 +39,7 @@ jobs:
       needs: lint
       strategy: 
         matrix:
-          node-version: [14, 16]
+          node-version: [21, 22]
           os: [ubuntu-latest, windows-latest]
       runs-on: ${{ matrix.os }}
       steps:
@@ -39,6 +49,11 @@ jobs:
           uses: actions/setup-node@v5
           with: 
             node-version: ${{ matrix.node-version }}
+        - name: Cache deps
+          uses: actions/cache@v4
+          with:
+            path: ~/.npm
+            key: node-modules-${{ hashFiles('**/package-lock.json') }}
         - name: Install depend
           run: npm ci
         - name: Build appl
